@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bài tập Toán tử trong C</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#f4f7fb;
+      color:#1e293b;
+    }
+
+    header{
+      height:80px;
+      background:linear-gradient(135deg,#075985,#0284c7);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 35px;
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:1000;
+      box-shadow:0 3px 12px rgba(0,0,0,.15);
+    }
+
+    header h1{
+      font-size:26px;
+    }
+
+    header span{
+      font-size:15px;
+      opacity:.9;
+    }
+
+    .sidebar{
+      width:270px;
+      background:#0f172a;
+      position:fixed;
+      top:80px;
+      bottom:0;
+      left:0;
+      overflow:auto;
+      padding:20px 12px;
+    }
+
+    .sidebar h3{
+      color:#38bdf8;
+      padding:12px;
+    }
+
+    .sidebar a{
+      display:block;
+      color:#e2e8f0;
+      padding:12px 15px;
+      margin:5px 0;
+      text-decoration:none;
+      border-radius:8px;
+      transition:.25s;
+    }
+
+    .sidebar a:hover{
+      background:#0284c7;
+      transform:translateX(4px);
+    }
+
+    main{
+      margin-left:270px;
+      padding:110px 35px 50px;
+      max-width:1400px;
+    }
+
+    .intro{
+      background:white;
+      padding:30px;
+      border-radius:15px;
+      margin-bottom:25px;
+      box-shadow:0 5px 18px rgba(0,0,0,.06);
+      border-left:6px solid #0284c7;
+    }
+
+    .intro h2{
+      color:#0369a1;
+      margin-bottom:12px;
+    }
+
+    .intro p{
+      line-height:1.7;
+      margin-bottom:8px;
+    }
+
+    .section-title{
+      margin:35px 0 20px;
+      padding:15px 20px;
+      background:linear-gradient(90deg,#0369a1,#0ea5e9);
+      color:white;
+      border-radius:10px;
+    }
+
+    .exercise{
+      background:white;
+      padding:25px;
+      margin-bottom:25px;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+      border:1px solid #e2e8f0;
+    }
+
+    .exercise h3{
+      color:#0369a1;
+      margin-bottom:12px;
+    }
+
+    .exercise p,
+    .exercise li{
+      line-height:1.7;
+    }
+
+    .exercise ul{
+      margin:10px 0 15px 25px;
+    }
+
+    .level{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:12px;
+    }
+
+    .easy{
+      background:#dcfce7;
+      color:#15803d;
+    }
+
+    .medium{
+      background:#fef3c7;
+      color:#b45309;
+    }
+
+    .hard{
+      background:#fee2e2;
+      color:#b91c1c;
+    }
+
+    pre{
+      background:#0f172a;
+      color:#e2e8f0;
+      padding:16px;
+      border-radius:10px;
+      overflow:auto;
+      margin-top:12px;
+      line-height:1.6;
+    }
+
+    code{
+      font-family:Consolas, monospace;
+    }
+
+    textarea{
+      width:100%;
+      min-height:180px;
+      margin-top:15px;
+      background:#111827;
+      color:#e5e7eb;
+      border:none;
+      border-radius:10px;
+      padding:15px;
+      font-family:Consolas,monospace;
+      font-size:15px;
+      resize:vertical;
+      outline:none;
+    }
+
+    button{
+      border:none;
+      padding:10px 18px;
+      border-radius:8px;
+      margin-top:12px;
+      margin-right:7px;
+      cursor:pointer;
+      font-weight:bold;
+      transition:.2s;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+      opacity:.92;
+    }
+
+    .btn-hint{
+      background:#f59e0b;
+      color:white;
+    }
+
+    .btn-answer{
+      background:#0284c7;
+      color:white;
+    }
+
+    .btn-reset{
+      background:#64748b;
+      color:white;
+    }
+
+    .done{
+      background:#22c55e !important;
+      color:white;
+    }
+
+    .hidden-box{
+      display:none;
+      margin-top:15px;
+      padding:18px;
+      border-radius:8px;
+    }
+
+    .hint-box{
+      border-left:5px solid #f59e0b;
+      background:#fffbeb;
+    }
+
+    .answer-box{
+      border-left:5px solid #0284c7;
+      background:#f0f9ff;
+    }
+
+    .note{
+      margin-top:15px;
+      background:white;
+      border:1px solid #bae6fd;
+      padding:15px;
+      border-radius:8px;
+    }
+
+    .note h4{
+      color:#0369a1;
+      margin-bottom:8px;
+    }
+
+    .progress-wrapper{
+      background:white;
+      padding:18px;
+      border-radius:12px;
+      margin-bottom:25px;
+      box-shadow:0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .progress-bar{
+      height:16px;
+      background:#e2e8f0;
+      border-radius:10px;
+      overflow:hidden;
+      margin-top:10px;
+    }
+
+    .progress{
+      width:0%;
+      height:100%;
+      background:#22c55e;
+      transition:.4s;
+    }
+
+    footer{
+      text-align:center;
+      margin-top:50px;
+      color:#64748b;
+      padding:20px;
+    }
+
+    @media(max-width:900px){
+      .sidebar{
+        display:none;
+      }
+
+      main{
+        margin-left:0;
+        padding:100px 18px 40px;
+      }
+
+      header h1{
+        font-size:20px;
+      }
+
+      header span{
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>💻 LẬP TRÌNH C - BÀI TẬP TOÁN TỬ</h1>
+  <span>Gợi ý + Đáp án + Chú thích</span>
+</header>
+
+<nav class="sidebar">
+  <h3>NỘI DUNG</h3>
+
+  <a href="#gioithieu">🏠 Giới thiệu</a>
+  <a href="#sohoc">➕ Toán tử số học</a>
+  <a href="#sosanh">⚖️ Toán tử so sánh</a>
+  <a href="#logic">🧠 Toán tử logic</a>
+  <a href="#tanggiam">⬆️ Toán tử ++ --</a>
+  <a href="#gan">📝 Toán tử gán</a>
+  <a href="#bangoi">❓ Toán tử ba ngôi</a>
+  <a href="#tonghop">🔥 Tổng hợp</a>
+</nav>
+
+<main>
+
+<section class="intro" id="gioithieu">
+  <h2>Bài tập Toán tử trong lập trình C</h2>
+
+  <p>
+    Bộ bài tập giúp người mới học luyện các toán tử:
+    <b>+, -, *, /, %, ++, --, ==, !=, >, <, >=, <=, &&, ||, !, +=, -=, *=, /=, ?:</b>
+  </p>
+
+  <p>
+    Mỗi bài có 3 chức năng:
+    <b>Hiện gợi ý</b>,
+    <b>Xem đáp án</b>,
+    <b>Đánh dấu hoàn thành</b>.
+  </p>
+
+  <p>
+    Đáp án được ẩn mặc định để người học tự làm trước.
+  </p>
+</section>
+
+<div class="progress-wrapper">
+  <b>Tiến độ học tập: <span id="progressText">0/12</span></b>
+
+  <div class="progress-bar">
+    <div class="progress" id="progressBar"></div>
+  </div>
+</div>
+
+<h2 class="section-title" id="sohoc">
+  PHẦN 1 - TOÁN TỬ SỐ HỌC
+</h2>
+
+<!-- BÀI 1 -->
+<div class="exercise">
+  <span class="level easy">CƠ BẢN</span>
+
+  <h3>Bài 1. Tính toán hai số</h3>
+
+  <p>Nhập hai số nguyên <b>a</b> và <b>b</b>.</p>
+
+  <ul>
+    <li>Tính tổng</li>
+    <li>Tính hiệu</li>
+    <li>Tính tích</li>
+    <li>Tính thương</li>
+    <li>Tính phần dư</li>
+  </ul>
+
+  <textarea placeholder="// Viết chương trình của bạn tại đây..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint1')">
+    💡 Hiện gợi ý
+  </button>
+
+  <button class="btn-answer" onclick="toggleBox('answer1')">
+    👁 Xem đáp án
+  </button>
+
+  <button class="btn-reset" onclick="markDone(this)">
+    ✓ Đánh dấu hoàn thành
+  </button>
+
+  <div class="hidden-box hint-box" id="hint1">
+    Dùng kiểu dữ liệu <code>int</code>.
+    Sử dụng <code>scanf()</code> để nhập dữ liệu.
+    Khi chia cần kiểm tra <code>b != 0</code>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer1">
+    <h4>Đáp án</h4>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a, b;
+
+    printf("Nhap a: ");
+    scanf("%d", &amp;a);
+
+    printf("Nhap b: ");
+    scanf("%d", &amp;b);
+
+    printf("Tong = %d\n", a + b);
+    printf("Hieu = %d\n", a - b);
+    printf("Tich = %d\n", a * b);
+
+    if (b != 0) {
+        printf("Thuong = %.2f\n", (float)a / b);
+        printf("Phan du = %d\n", a % b);
+    } else {
+        printf("Khong the chia cho 0\n");
+    }
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p><code>int a, b;</code>: khai báo hai biến số nguyên.</p>
+      <p><code>scanf("%d", &amp;a);</code>: nhập số nguyên cho biến a.</p>
+      <p><code>a + b</code>: phép cộng.</p>
+      <p><code>a - b</code>: phép trừ.</p>
+      <p><code>a * b</code>: phép nhân.</p>
+      <p><code>a / b</code>: phép chia.</p>
+      <p><code>a % b</code>: lấy phần dư.</p>
+      <p><code>(float)a / b</code>: ép kiểu để kết quả phép chia có phần thập phân.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BÀI 2 -->
+<div class="exercise">
+  <span class="level easy">CƠ BẢN</span>
+
+  <h3>Bài 2. Chu vi và diện tích hình chữ nhật</h3>
+
+  <p>Nhập chiều dài và chiều rộng rồi tính chu vi, diện tích.</p>
+
+  <textarea placeholder="// Viết chương trình của bạn..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint2')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer2')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint2">
+    Dùng <code>float</code> để cho phép nhập số có phần thập phân.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer2">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    float d, r;
+
+    printf("Nhap chieu dai: ");
+    scanf("%f", &amp;d);
+
+    printf("Nhap chieu rong: ");
+    scanf("%f", &amp;r);
+
+    float chuVi = (d + r) * 2;
+    float dienTich = d * r;
+
+    printf("Chu vi = %.2f\n", chuVi);
+    printf("Dien tich = %.2f\n", dienTich);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p><code>float</code>: lưu số thực.</p>
+      <p><code>(d + r) * 2</code>: công thức tính chu vi.</p>
+      <p><code>d * r</code>: công thức tính diện tích.</p>
+      <p><code>%.2f</code>: hiển thị 2 chữ số sau dấu thập phân.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BÀI 3 -->
+<div class="exercise">
+  <span class="level easy">CƠ BẢN</span>
+
+  <h3>Bài 3. Tính trung bình cộng</h3>
+
+  <p>Nhập ba số thực a, b, c và tính trung bình cộng.</p>
+
+  <textarea placeholder="// Viết chương trình của bạn..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint3')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer3')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint3">
+    Công thức: <code>(a + b + c) / 3</code>
+  </div>
+
+  <div class="hidden-box answer-box" id="answer3">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    float a, b, c;
+
+    printf("Nhap a: ");
+    scanf("%f", &amp;a);
+
+    printf("Nhap b: ");
+    scanf("%f", &amp;b);
+
+    printf("Nhap c: ");
+    scanf("%f", &amp;c);
+
+    float trungBinh = (a + b + c) / 3;
+
+    printf("Trung binh = %.2f\n", trungBinh);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p>Ba biến a, b, c dùng để lưu ba số nhập vào.</p>
+      <p>Biến <code>trungBinh</code> dùng để lưu kết quả.</p>
+      <p>Chia cho 3 để tính trung bình cộng.</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="sosanh">
+  PHẦN 2 - TOÁN TỬ SO SÁNH
+</h2>
+
+<!-- BÀI 4 -->
+<div class="exercise">
+  <span class="level easy">CƠ BẢN</span>
+
+  <h3>Bài 4. So sánh hai số</h3>
+
+  <p>Nhập a, b và kiểm tra các phép so sánh.</p>
+
+  <textarea placeholder="// Viết chương trình..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint4')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer4')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint4">
+    Kết quả phép so sánh trong C thường là <b>1 nếu đúng</b>, <b>0 nếu sai</b>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer4">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a, b;
+
+    scanf("%d", &amp;a);
+    scanf("%d", &amp;b);
+
+    printf("a > b = %d\n", a > b);
+    printf("a < b = %d\n", a < b);
+    printf("a == b = %d\n", a == b);
+    printf("a != b = %d\n", a != b);
+    printf("a >= b = %d\n", a >= b);
+    printf("a <= b = %d\n", a <= b);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Ý nghĩa toán tử</h4>
+      <p><code>&gt;</code>: lớn hơn.</p>
+      <p><code>&lt;</code>: nhỏ hơn.</p>
+      <p><code>==</code>: bằng nhau.</p>
+      <p><code>!=</code>: khác nhau.</p>
+      <p><code>&gt;=</code>: lớn hơn hoặc bằng.</p>
+      <p><code>&lt;=</code>: nhỏ hơn hoặc bằng.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BÀI 5 -->
+<div class="exercise">
+  <span class="level easy">CƠ BẢN</span>
+
+  <h3>Bài 5. Kiểm tra chẵn lẻ</h3>
+
+  <p>Nhập số nguyên n và kiểm tra chẵn hay lẻ.</p>
+
+  <textarea placeholder="// Viết chương trình..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint5')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer5')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint5">
+    Kiểm tra <code>n % 2</code>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer5">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int n;
+
+    printf("Nhap n: ");
+    scanf("%d", &amp;n);
+
+    if (n % 2 == 0) {
+        printf("So chan\n");
+    } else {
+        printf("So le\n");
+    }
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p><code>n % 2 == 0</code>: nếu chia 2 dư 0 thì là số chẵn.</p>
+      <p><code>else</code>: trường hợp còn lại là số lẻ.</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="logic">
+  PHẦN 3 - TOÁN TỬ LOGIC
+</h2>
+
+<!-- BÀI 6 -->
+<div class="exercise">
+  <span class="level medium">TRUNG BÌNH</span>
+
+  <h3>Bài 6. Kiểm tra độ tuổi</h3>
+
+  <p>Kiểm tra tuổi có nằm trong khoảng 18 đến 60.</p>
+
+  <textarea placeholder="// Viết chương trình..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint6')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer6')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint6">
+    Dùng toán tử <code>&amp;&amp;</code>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer6">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int age;
+
+    printf("Nhap tuoi: ");
+    scanf("%d", &amp;age);
+
+    if (age >= 18 &amp;&amp; age <= 60) {
+        printf("Nam trong khoang\n");
+    } else {
+        printf("Nam ngoai khoang\n");
+    }
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p><code>&amp;&amp;</code> nghĩa là AND - VÀ.</p>
+      <p>Cả hai điều kiện phải cùng đúng.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BÀI 7 -->
+<div class="exercise">
+  <span class="level medium">TRUNG BÌNH</span>
+
+  <h3>Bài 7. Kiểm tra ngoài khoảng</h3>
+
+  <p>Kiểm tra số n nhỏ hơn 0 hoặc lớn hơn 100.</p>
+
+  <textarea placeholder="// Viết chương trình..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint7')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer7')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint7">
+    Dùng toán tử <code>||</code>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer7">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int n;
+
+    scanf("%d", &amp;n);
+
+    if (n < 0 || n > 100) {
+        printf("Ngoai khoang\n");
+    } else {
+        printf("Trong khoang\n");
+    }
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p><code>||</code> nghĩa là OR - HOẶC.</p>
+      <p>Chỉ cần một điều kiện đúng thì toàn bộ điều kiện đúng.</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="tanggiam">
+  PHẦN 4 - TOÁN TỬ TĂNG GIẢM
+</h2>
+
+<!-- BÀI 8 -->
+<div class="exercise">
+  <span class="level medium">TRUNG BÌNH</span>
+
+  <h3>Bài 8. Toán tử ++</h3>
+
+  <pre><code>int a = 10;
+
+a++;
+++a;
+a++;</code></pre>
+
+  <p>Hãy dự đoán giá trị cuối cùng của a.</p>
+
+  <textarea placeholder="// Ghi dự đoán..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint8')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer8')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint8">
+    Mỗi lần dùng <code>++</code> thì biến tăng thêm 1.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer8">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10;
+
+    a++;
+    ++a;
+    a++;
+
+    printf("a = %d\n", a);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Kết quả</h4>
+      <p><b>a = 13</b></p>
+      <p>Từ 10, tăng 3 lần nên thành 13.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BÀI 9 -->
+<div class="exercise">
+  <span class="level hard">NÂNG CAO</span>
+
+  <h3>Bài 9. Phân biệt a++ và ++a</h3>
+
+<pre><code>int a = 5;
+int b, c;
+
+b = a++;
+c = ++a;</code></pre>
+
+  <textarea placeholder="// Dự đoán a, b, c..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint9')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer9')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint9">
+    <code>a++</code>: dùng trước, tăng sau.
+    <br>
+    <code>++a</code>: tăng trước, dùng sau.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer9">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 5;
+    int b, c;
+
+    b = a++;
+    c = ++a;
+
+    printf("a = %d\n", a);
+    printf("b = %d\n", b);
+    printf("c = %d\n", c);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Kết quả</h4>
+      <p><b>a = 7</b></p>
+      <p><b>b = 5</b></p>
+      <p><b>c = 7</b></p>
+
+      <h4>Giải thích</h4>
+      <p><code>b = a++</code>: b nhận 5 trước, sau đó a tăng lên 6.</p>
+      <p><code>c = ++a</code>: a tăng từ 6 lên 7 trước, sau đó c nhận 7.</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="gan">
+  PHẦN 5 - TOÁN TỬ GÁN
+</h2>
+
+<!-- BÀI 10 -->
+<div class="exercise">
+  <span class="level medium">TRUNG BÌNH</span>
+
+  <h3>Bài 10. Toán tử gán kết hợp</h3>
+
+<pre><code>int a = 10;
+
+a += 5;
+a -= 3;
+a *= 2;
+a /= 4;</code></pre>
+
+  <textarea placeholder="// Ghi kết quả từng bước..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint10')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer10')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint10">
+    Ví dụ:
+    <code>a += 5</code> tương đương <code>a = a + 5</code>.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer10">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a = 10;
+
+    a += 5;
+    printf("%d\n", a);
+
+    a -= 3;
+    printf("%d\n", a);
+
+    a *= 2;
+    printf("%d\n", a);
+
+    a /= 4;
+    printf("%d\n", a);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Kết quả từng bước</h4>
+      <p>10 + 5 = <b>15</b></p>
+      <p>15 - 3 = <b>12</b></p>
+      <p>12 × 2 = <b>24</b></p>
+      <p>24 / 4 = <b>6</b></p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="bangoi">
+  PHẦN 6 - TOÁN TỬ BA NGÔI
+</h2>
+
+<!-- BÀI 11 -->
+<div class="exercise">
+  <span class="level medium">TRUNG BÌNH</span>
+
+  <h3>Bài 11. Tìm số lớn hơn</h3>
+
+  <p>Nhập a và b. Dùng toán tử ba ngôi để tìm số lớn hơn.</p>
+
+  <textarea placeholder="// Viết chương trình..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint11')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer11')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint11">
+    Cấu trúc:
+    <code>điều_kiện ? giá_trị_đúng : giá_trị_sai</code>
+  </div>
+
+  <div class="hidden-box answer-box" id="answer11">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a, b;
+    int max;
+
+    scanf("%d", &amp;a);
+    scanf("%d", &amp;b);
+
+    max = (a > b) ? a : b;
+
+    printf("So lon hon = %d\n", max);
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Chú thích</h4>
+      <p>
+        Nếu <code>a &gt; b</code> đúng thì max nhận a.
+      </p>
+
+      <p>
+        Nếu điều kiện sai thì max nhận b.
+      </p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title" id="tonghop">
+  PHẦN 7 - BÀI TẬP TỔNG HỢP
+</h2>
+
+<!-- BÀI 12 -->
+<div class="exercise">
+  <span class="level hard">TỔNG HỢP</span>
+
+  <h3>Bài 12. Xử lý hai số</h3>
+
+  <ul>
+    <li>Tính tổng, hiệu, tích</li>
+    <li>Tính thương, phần dư</li>
+    <li>So sánh hai số</li>
+    <li>Kiểm tra chẵn lẻ</li>
+  </ul>
+
+  <textarea style="min-height:280px" placeholder="// Viết chương trình hoàn chỉnh..."></textarea>
+
+  <button class="btn-hint" onclick="toggleBox('hint12')">💡 Hiện gợi ý</button>
+  <button class="btn-answer" onclick="toggleBox('answer12')">👁 Xem đáp án</button>
+  <button class="btn-reset" onclick="markDone(this)">✓ Đánh dấu hoàn thành</button>
+
+  <div class="hidden-box hint-box" id="hint12">
+    Chia bài toán thành các bước:
+    nhập dữ liệu → tính toán → so sánh → kiểm tra chẵn lẻ → xuất kết quả.
+  </div>
+
+  <div class="hidden-box answer-box" id="answer12">
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main() {
+    int a, b;
+
+    printf("Nhap a: ");
+    scanf("%d", &amp;a);
+
+    printf("Nhap b: ");
+    scanf("%d", &amp;b);
+
+    printf("\n--- PHEP TINH ---\n");
+
+    printf("Tong = %d\n", a + b);
+    printf("Hieu = %d\n", a - b);
+    printf("Tich = %d\n", a * b);
+
+    if (b != 0) {
+        printf("Thuong = %.2f\n", (float)a / b);
+        printf("Phan du = %d\n", a % b);
+    } else {
+        printf("Khong the chia cho 0\n");
+    }
+
+    printf("\n--- SO SANH ---\n");
+
+    if (a > b) {
+        printf("a lon hon b\n");
+    } else if (a < b) {
+        printf("a nho hon b\n");
+    } else {
+        printf("a bang b\n");
+    }
+
+    printf("\n--- CHAN LE ---\n");
+
+    if (a % 2 == 0) {
+        printf("a la so chan\n");
+    } else {
+        printf("a la so le\n");
+    }
+
+    if (b % 2 == 0) {
+        printf("b la so chan\n");
+    } else {
+        printf("b la so le\n");
+    }
+
+    return 0;
+}</code></pre>
+
+    <div class="note">
+      <h4>Giải thích tổng hợp</h4>
+      <p>
+        Chương trình kết hợp toán tử số học, so sánh, điều kiện và toán tử chia lấy dư.
+      </p>
+
+      <p>
+        <code>b != 0</code> giúp tránh lỗi chia cho 0.
+      </p>
+
+      <p>
+        <code>a % 2 == 0</code> dùng để kiểm tra số chẵn.
+      </p>
+
+      <p>
+        <code>if - else if - else</code> dùng để so sánh a và b.
+      </p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Bài tập thực hành Lập trình C - Chủ đề Toán tử
+</footer>
+
+</main>
+
+<script>
+
+function toggleBox(id){
+  const box = document.getElementById(id);
+
+  if(box.style.display === "block"){
+    box.style.display = "none";
+  }else{
+    box.style.display = "block";
+  }
+}
+
+let completed = 0;
+const totalExercises = 12;
+
+function markDone(button){
+
+  if(button.classList.contains("done")){
+    button.classList.remove("done");
+    button.innerHTML = "✓ Đánh dấu hoàn thành";
+    completed--;
+  }else{
+    button.classList.add("done");
+    button.innerHTML = "✓ Đã hoàn thành";
+    completed++;
+  }
+
+  updateProgress();
+}
+
+function updateProgress(){
+
+  document.getElementById("progressText").innerText =
+    completed + "/" + totalExercises;
+
+  const percent =
+    (completed / totalExercises) * 100;
+
+  document.getElementById("progressBar").style.width =
+    percent + "%";
+}
+
+</script>
+
+</body>
+</html>
